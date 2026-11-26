@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WaterTracker | Beba água</title>
+  <meta name="description" content="Registre a água que você bebe, acompanhe a meta do dia e receba lembretes visuais para se hidratar.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="lembrete" id="lembrete" role="alert" hidden>
+    <span class="gota-anim" aria-hidden="true">💧</span>
+    <div><b>Hora de beber água!</b><small id="lembrete-txt"></small></div>
+    <button class="btn" id="lembrete-beber">Bebi 1 copo</button>
+    <button class="icone" id="lembrete-adiar" aria-label="Lembrar daqui a 15 minutos" title="Adiar 15 min">⏰</button>
+  </div>
+
+  <header class="topo">
+    <h1 class="marca">Water<b>Tracker</b></h1>
+    <button class="icone" id="abrir-config" aria-label="Configurações">⚙️</button>
+  </header>
+
+  <main class="layout">
+    <section class="principal">
+      <p class="data" id="data"></p>
+      <div class="garrafa-wrap">
+        <div class="garrafa" id="garrafa" role="img" aria-label="Progresso do dia">
+          <div class="agua" id="agua"><svg class="ondas" viewBox="0 0 400 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 20 Q50 0 100 20 T200 20 T300 20 T400 20 V40 H0Z"/></svg></div>
+          <div class="marcas" aria-hidden="true"><i></i><i></i><i></i></div>
+          <div class="numeros"><b id="bebido">0</b><span id="meta-txt">de 2.000 ml</span><em id="pct">0%</em></div>
+        </div>
+      </div>
+      <p class="msg" id="msg" aria-live="polite"></p>
+
+      <div class="rapidos" id="rapidos" aria-label="Adicionar"></div>
+      <form class="outro" id="form-outro" autocomplete="off">
+        <label class="sr" for="outro-ml">Outra quantidade em ml</label>
+        <input type="number" id="outro-ml" min="10" max="3000" step="10" placeholder="Outra quantidade (ml)">
+        <button class="btn claro">Adicionar</button>
+      </form>
+    </section>
+
+    <aside class="lado">
+      <section class="card">
+        <div class="card__topo"><h2>Hoje</h2><button class="link" id="desfazer" hidden>↶ Desfazer último</button></div>
+        <ul class="registros" id="registros"></ul>
+        <p class="prox" id="prox"></p>
+      </section>
+      <section class="card">
+        <h2>Últimos 7 dias</h2>
+        <div class="semana" id="semana" aria-label="Consumo dos últimos 7 dias"></div>
+        <div class="numeros-sem" id="numeros-sem"></div>
+      </section>
+    </aside>
+  </main>
+
+  <dialog id="dlg-config" aria-labelledby="cfg-titulo">
+    <form method="dialog" class="form" id="form-config">
+      <div class="form__topo"><h2 id="cfg-titulo">Configurações</h2><button class="fechar" value="cancelar" formnovalidate aria-label="Fechar">×</button></div>
+      <fieldset>
+        <legend>Meta diária</legend>
+        <div class="g2">
+          <label>Meta (ml)<input type="number" id="c-meta" min="500" max="6000" step="50" required></label>
+          <label>Seu peso (kg)<input type="number" id="c-peso" min="20" max="250" step="0.5" placeholder="opcional"></label>
+        </div>
+        <p class="nota" id="c-sugestao">Informe o peso para ver uma sugestão (cerca de 35 ml por kg). Em dias quentes ou com exercício, beba mais. Se você tem orientação médica sobre líquidos, siga a do seu médico.</p>
+      </fieldset>
+      <fieldset>
+        <legend>Copos rápidos (ml)</legend>
+        <div class="g3"><input type="number" id="c-copo1" min="10" max="2000" aria-label="Copo 1"><input type="number" id="c-copo2" min="10" max="2000" aria-label="Copo 2"><input type="number" id="c-copo3" min="10" max="2000" aria-label="Copo 3"></div>
+      </fieldset>
+      <fieldset>
+        <legend>Lembretes</legend>
+        <label class="check"><input type="checkbox" id="c-lembrar"> Lembrar de beber água</label>
+        <div class="g3">
+          <label>A cada<select id="c-intervalo"><option value="30">30 min</option><option value="45">45 min</option><option value="60">1 hora</option><option value="90">1h30</option><option value="120">2 horas</option></select></label>
+          <label>Das<input type="time" id="c-inicio"></label>
+          <label>Até<input type="time" id="c-fim"></label>
+        </div>
+        <label class="check"><input type="checkbox" id="c-notif"> Também avisar com notificação do navegador</label>
+        <p class="nota">Os lembretes aparecem enquanto esta página estiver aberta (pode ficar numa aba ao lado).</p>
+      </fieldset>
+      <div class="form__rodape"><button type="button" class="btn perigo" id="zerar-hoje">Zerar hoje</button><span></span><button class="btn claro" value="cancelar" formnovalidate>Cancelar</button><button class="btn" value="salvar">Salvar</button></div>
+    </form>
+  </dialog>
+  <div class="toast" id="toast" role="status" hidden></div>
+  <script src="js/script.js"></script>
+</body>
+</html>
